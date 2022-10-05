@@ -1,19 +1,13 @@
 import '../../common/constants.dart';
-import '../../common/state_enum.dart';
 import 'package:movie/movie.dart';
 import 'package:tv/tv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class SearchPage extends StatefulWidget {
+class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';
 
-  @override
-  State<SearchPage> createState() => _SearchPageState();
-}
-
-class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +20,9 @@ class _SearchPageState extends State<SearchPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<MovieSearchNotifier>(context, listen: false)
-                    .fetchMovieSearch(query);
-                Provider.of<tvSearchNotifier>(context, listen: false)
-                    .fetchtvSearch(query);
+              onChanged: (query) {
+                context.read<SearchBloc>().add(OnQueryChanged(query));
+                context.read<SearchBlocTV>().add(OnQueryChangedTV(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search title',

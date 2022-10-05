@@ -10,7 +10,7 @@ class SearchBlocTV extends Bloc<SearchEventTV, SearchStateTV> {
   final Searchtvs _searchTvs;
 
   SearchBlocTV(this._searchTvs) : super(SearchEmptyTV()) {
-    on<OnQueryChanged>((event, emit) async {
+    on<OnQueryChangedTV>((event, emit) async {
       final query = event.query;
 
       emit(SearchLoadingTV());

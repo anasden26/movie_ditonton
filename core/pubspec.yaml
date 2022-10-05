@@ -25,6 +25,7 @@ dependencies:
   test_cov_console: ^0.2.2
   flutter_bloc: ^8.1.1
   sqflite_sqlcipher: ^2.1.1+1
+  firebase_crashlytics: ^2.8.12
 
   movie:
     path: ../movie

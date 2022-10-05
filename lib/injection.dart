@@ -7,6 +7,18 @@ import 'package:get_it/get_it.dart';
 final locator = GetIt.instance;
 
 void init() {
+  // bloc
+  locator.registerFactory(
+        () => SearchBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+        () => SearchBlocTV(
+      locator(),
+    ),
+  );
+
   // provider
   locator.registerFactory(
     () => MovieListNotifier(

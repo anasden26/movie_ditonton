@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:core/core.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Widget content;
@@ -29,8 +30,7 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://raw.githubusercontent.com/dicodingacademy/assets/main/flutter_expert_academy/dicoding-icon.png'),
+              backgroundImage: AssetImage('assets/circle-g.png'),
             ),
             accountName: Text('Ditonton'),
             accountEmail: Text('ditonton@dicoding.com'),
@@ -42,6 +42,16 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
           ListTile(
             leading: Icon(Icons.save_alt),
             title: Text('Watchlist'),
+            onTap: () {
+              Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+            },
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+            },
+            leading: Icon(Icons.info_outline),
+            title: Text('About'),
           ),
         ],
       ),
