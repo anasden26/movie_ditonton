@@ -1,9 +1,9 @@
-import '../../../lib/data/models/tv_model.dart';
+import 'package:tv/data/models/tv_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv.dart';
 
 void main() {
-  final ttvModel = tvModel(
+  final tTVModel = TVModel(
     posterPath: 'posterPath',
     popularity: 1,
     id: 1,
@@ -19,7 +19,7 @@ void main() {
     originalName: 'originalName',
   );
 
-  final ttv = tv(
+  final tTV = TV(
     posterPath: 'posterPath',
     popularity: 1,
     id: 1,
@@ -35,8 +35,8 @@ void main() {
     originalName: 'originalName',
   );
 
-  test('should be a subclass of tv entity', () async {
-    final result = ttvModel.toEntity();
-    expect(result, ttv);
+  test('should be a subclass of TV entity', () async {
+    final result = tTVModel.toEntity();
+    expect(result, tTV);
   });
 }

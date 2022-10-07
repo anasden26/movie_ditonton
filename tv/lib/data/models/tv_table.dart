@@ -1,28 +1,28 @@
-import '../../domain/entities/tv.dart';
-import '../../domain/entities/tv_detail.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv_detail.dart';
 import 'package:equatable/equatable.dart';
 
-class tvTable extends Equatable {
+class TVTable extends Equatable {
   final int id;
   final String? name;
   final String? posterPath;
   final String? overview;
 
-  const tvTable({
+  TVTable({
     required this.id,
     required this.name,
     required this.posterPath,
     required this.overview,
   });
 
-  factory tvTable.fromEntity(tvDetail tv) => tvTable(
+  factory TVTable.fromEntity(TVDetail tv) => TVTable(
     id: tv.id,
     name: tv.name,
     posterPath: tv.posterPath,
     overview: tv.overview,
   );
 
-  factory tvTable.fromMap(Map<String, dynamic> map) => tvTable(
+  factory TVTable.fromMap(Map<String, dynamic> map) => TVTable(
     id: map['id'],
     name: map['name'],
     posterPath: map['posterPath'],
@@ -36,7 +36,7 @@ class tvTable extends Equatable {
     'overview': overview,
   };
 
-  tv toEntity() => tv.watchlist(
+  TV toEntity() => TV.watchlist(
     id: id,
     overview: overview,
     posterPath: posterPath,

@@ -1,31 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:core/core.dart';
-import '../../domain/entities/tv.dart';
-import '../../domain/entities/tv_detail.dart';
+import 'package:core/common/constants.dart';
+import 'package:core/domain/entities/genre.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv_detail.dart';
+import 'package:core/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../pages/season_detail_page.dart';
-import '../provider/tv_detail_notifier.dart';
+import 'package:tv/presentation/pages/season_detail_page.dart';
+import 'package:tv/presentation/provider/tv_detail_notifier.dart';
 import 'package:provider/provider.dart';
 
-class tvDetailPage extends StatefulWidget {
+class TVDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail-tv-show';
 
   final int id;
-  tvDetailPage({required this.id});
+  TVDetailPage({required this.id});
 
   @override
-  _tvDetailPageState createState() => _tvDetailPageState();
+  _TVDetailPageState createState() => _TVDetailPageState();
 }
 
-class _tvDetailPageState extends State<tvDetailPage> {
+class _TVDetailPageState extends State<TVDetailPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<tvDetailNotifier>(context, listen: false)
-          .fetchtvDetail(widget.id);
-      Provider.of<tvDetailNotifier>(context, listen: false)
+      Provider.of<TVDetailNotifier>(context, listen: false)
+          .fetchTVDetail(widget.id);
+      Provider.of<TVDetailNotifier>(context, listen: false)
           .loadWatchlistStatus(widget.id);
     });
   }
@@ -33,14 +35,14 @@ class _tvDetailPageState extends State<tvDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<tvDetailNotifier>(
+      body: Consumer<TVDetailNotifier>(
         builder: (context, provider, child) {
           if (provider.tvState == RequestState.loading) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (provider.tvState == RequestState.loaded) {
-            final tv = provider.tvs;
+            final tv = provider.tv;
             return SafeArea(
               child: DetailContent(
                 tv,
@@ -49,7 +51,10 @@ class _tvDetailPageState extends State<tvDetailPage> {
               ),
             );
           } else {
-            return Text(provider.message);
+            return Center(
+              key: Key('error_message'),
+              child: Text(provider.message),
+            );
           }
         },
       ),
@@ -58,11 +63,11 @@ class _tvDetailPageState extends State<tvDetailPage> {
 }
 
 class DetailContent extends StatelessWidget {
-  final tvDetail tvs;
-  final List<tv> recommendations;
+  final TVDetail tv;
+  final List<TV> recommendations;
   final bool isAddedWatchlist;
 
-  DetailContent(this.tvs, this.recommendations, this.isAddedWatchlist);
+  DetailContent(this.tv, this.recommendations, this.isAddedWatchlist);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +75,7 @@ class DetailContent extends StatelessWidget {
     return Stack(
       children: [
         CachedNetworkImage(
-          imageUrl: 'https://image.tmdb.org/t/p/w500${tvs.posterPath}',
+          imageUrl: 'https://image.tmdb.org/t/p/w500${tv.posterPath}',
           width: screenWidth,
           placeholder: (context, url) => Center(
             child: CircularProgressIndicator(),
@@ -101,33 +106,33 @@ class DetailContent extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              tvs.name,
+                              tv.name,
                               style: kHeading5,
                             ),
                             ElevatedButton(
                               onPressed: () async {
                                 if (!isAddedWatchlist) {
-                                  await Provider.of<tvDetailNotifier>(
+                                  await Provider.of<TVDetailNotifier>(
                                       context,
                                       listen: false)
-                                      .addWatchlist(tvs);
+                                      .addWatchlist(tv);
                                 } else {
-                                  await Provider.of<tvDetailNotifier>(
+                                  await Provider.of<TVDetailNotifier>(
                                       context,
                                       listen: false)
-                                      .removeFromWatchlist(tvs);
+                                      .removeFromWatchlist(tv);
                                 }
 
                                 final message =
-                                    Provider.of<tvDetailNotifier>(context,
+                                    Provider.of<TVDetailNotifier>(context,
                                         listen: false)
                                         .watchlistMessage;
 
                                 if (message ==
-                                    tvDetailNotifier
+                                    TVDetailNotifier
                                         .watchlistAddSuccessMessage ||
                                     message ==
-                                        tvDetailNotifier
+                                        TVDetailNotifier
                                             .watchlistRemoveSuccessMessage) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)));
@@ -152,12 +157,12 @@ class DetailContent extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              _showGenres(tvs.genres),
+                              _showGenres(tv.genres),
                             ),
                             Row(
                               children: [
                                 RatingBarIndicator(
-                                  rating: tvs.voteAverage / 2,
+                                  rating: tv.voteAverage / 2,
                                   itemCount: 5,
                                   itemBuilder: (context, index) => Icon(
                                     Icons.star,
@@ -165,7 +170,7 @@ class DetailContent extends StatelessWidget {
                                   ),
                                   itemSize: 24,
                                 ),
-                                Text('${tvs.voteAverage}')
+                                Text('${tv.voteAverage}')
                               ],
                             ),
                             SizedBox(height: 16),
@@ -174,14 +179,14 @@ class DetailContent extends StatelessWidget {
                               style: kHeading6,
                             ),
                             Text(
-                              tvs.overview,
+                              tv.overview,
                             ),
                             SizedBox(height: 16),
                             Text(
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            Consumer<tvDetailNotifier>(
+                            Consumer<TVDetailNotifier>(
                               builder: (context, data, child) {
                                 if (data.recommendationState ==
                                     RequestState.loading) {
@@ -205,7 +210,7 @@ class DetailContent extends StatelessWidget {
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                tvDetailPage.ROUTE_NAME,
+                                                TVDetailPage.ROUTE_NAME,
                                                 arguments: tv.id,
                                               );
                                             },
@@ -245,7 +250,7 @@ class DetailContent extends StatelessWidget {
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                children: tvs.seasons.map(
+                                children: tv.seasons.map(
                                       (season) => Container(
                                       height: 200,
                                       child: Padding(
@@ -255,7 +260,7 @@ class DetailContent extends StatelessWidget {
                                             Navigator.pushNamed(
                                               context,
                                               SeasonDetailPage.ROUTE_NAME,
-                                              arguments: [tvs.id, season.seasonNumber],
+                                              arguments: [tv.id, season.seasonNumber],
                                             );
                                           },
                                           child: Column(

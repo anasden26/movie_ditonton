@@ -6,19 +6,19 @@ import 'package:mockito/mockito.dart';
 import '../../../../test/helpers/test_helper.mocks.dart';
 
 void main() {
-  late GetTopRatedtvs usecase;
-  late MocktvRepository mocktvRepository;
+  late GetTopRatedTVs usecase;
+  late MockTVRepository mockTVRepository;
 
   setUp(() {
-    mocktvRepository = MocktvRepository();
-    usecase = GetTopRatedtvs(mocktvRepository);
+    mockTVRepository = MockTVRepository();
+    usecase = GetTopRatedTVs(mockTVRepository);
   });
 
-  final ttv = <tv>[];
+  final ttv = <TV>[];
 
   test('should get list of tv shows from repository', () async {
     // arrange
-    when(mocktvRepository.getTopRatedtvs())
+    when(mockTVRepository.getTopRatedTVs())
         .thenAnswer((_) async => Right(ttv));
     // act
     final result = await usecase.execute();

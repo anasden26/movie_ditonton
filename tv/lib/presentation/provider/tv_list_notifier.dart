@@ -1,47 +1,47 @@
-import 'package:core/core.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/domain/usecases/get_popular_tv.dart';
 import 'package:flutter/material.dart';
-import '../../domain/entities/tv.dart';
-import '../../domain/usecases/get_popular_tv.dart';
-import '../../domain/usecases/get_top_rated_tv.dart';
-import '../../domain/usecases/get_tv_on_air.dart';
+import 'package:tv/domain/usecases/get_top_rated_tv.dart';
+import 'package:tv/domain/usecases/get_tv_on_air.dart';
 
-class tvListNotifier extends ChangeNotifier {
-  var _onAirtvs = <tv>[];
-  List<tv> get onAirtvs => _onAirtvs;
+class TVListNotifier extends ChangeNotifier {
+  var _onAirTVs = <TV>[];
+  List<TV> get onAirTVs => _onAirTVs;
 
   RequestState _onAirState = RequestState.empty;
   RequestState get onAirState => _onAirState;
 
-  var _populartvs = <tv>[];
-  List<tv> get populartvs => _populartvs;
+  var _popularTVs = <TV>[];
+  List<TV> get popularTVs => _popularTVs;
 
-  RequestState _populartvsState = RequestState.empty;
-  RequestState get populartvsState => _populartvsState;
+  RequestState _popularTVsState = RequestState.empty;
+  RequestState get popularTVsState => _popularTVsState;
 
-  var _topRatedtvs = <tv>[];
-  List<tv> get topRatedtvs => _topRatedtvs;
+  var _topRatedTVs = <TV>[];
+  List<TV> get topRatedTVs => _topRatedTVs;
 
-  RequestState _topRatedtvsState = RequestState.empty;
-  RequestState get topRatedtvsState => _topRatedtvsState;
+  RequestState _topRatedTVsState = RequestState.empty;
+  RequestState get topRatedTVsState => _topRatedTVsState;
 
   String _message = '';
   String get message => _message;
 
-  tvListNotifier({
-    required this.getOnAirtvs,
-    required this.getPopulartvs,
-    required this.getTopRatedtvs,
+  TVListNotifier({
+    required this.getOnAirTVs,
+    required this.getPopularTVs,
+    required this.getTopRatedTVs,
   });
 
-  final GetOnAirtvs getOnAirtvs;
-  final GetPopulartvs getPopulartvs;
-  final GetTopRatedtvs getTopRatedtvs;
+  final GetOnAirTVs getOnAirTVs;
+  final GetPopularTVs getPopularTVs;
+  final GetTopRatedTVs getTopRatedTVs;
 
-  Future<void> fetchOnAirtvs() async {
+  Future<void> fetchOnAirTVs() async {
     _onAirState = RequestState.loading;
     notifyListeners();
 
-    final result = await getOnAirtvs.execute();
+    final result = await getOnAirTVs.execute();
     result.fold(
           (failure) {
         _onAirState = RequestState.error;
@@ -50,45 +50,45 @@ class tvListNotifier extends ChangeNotifier {
       },
           (tvsData) {
         _onAirState = RequestState.loaded;
-        _onAirtvs = tvsData;
+        _onAirTVs = tvsData;
         notifyListeners();
       },
     );
   }
 
-  Future<void> fetchPopulartvs() async {
-    _populartvsState = RequestState.loading;
+  Future<void> fetchPopularTVs() async {
+    _popularTVsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopulartvs.execute();
+    final result = await getPopularTVs.execute();
     result.fold(
           (failure) {
-        _populartvsState = RequestState.error;
+        _popularTVsState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
           (tvsData) {
-        _populartvsState = RequestState.loaded;
-        _populartvs = tvsData;
+        _popularTVsState = RequestState.loaded;
+        _popularTVs = tvsData;
         notifyListeners();
       },
     );
   }
 
-  Future<void> fetchTopRatedtvs() async {
-    _topRatedtvsState = RequestState.loading;
+  Future<void> fetchTopRatedTVs() async {
+    _topRatedTVsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getTopRatedtvs.execute();
+    final result = await getTopRatedTVs.execute();
     result.fold(
           (failure) {
-        _topRatedtvsState = RequestState.error;
+        _topRatedTVsState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
           (tvsData) {
-        _topRatedtvsState = RequestState.loaded;
-        _topRatedtvs = tvsData;
+        _topRatedTVsState = RequestState.loaded;
+        _topRatedTVs = tvsData;
         notifyListeners();
       },
     );

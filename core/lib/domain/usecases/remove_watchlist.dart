@@ -5,7 +5,7 @@ import 'package:tv/tv.dart';
 
 class RemoveWatchlist {
   final MovieRepository repository;
-  final tvRepository repository2;
+  final TVRepository repository2;
 
   RemoveWatchlist(this.repository, this.repository2);
 
@@ -13,7 +13,7 @@ class RemoveWatchlist {
     return repository.removeWatchlist(movie);
   }
 
-  Future<Either<Failure, String>> execute2(tvDetail tv) {
+  Future<Either<Failure, String>> execute2(TVDetail tv) {
     return repository2.removeWatchlist(tv);
   }
 }

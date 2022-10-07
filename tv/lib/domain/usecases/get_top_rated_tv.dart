@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/tv.dart';
-import '../repositories/tv_repository.dart';
+import 'package:core/common/failure.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
 
-class GetTopRatedtvs {
-  final tvRepository repository;
+class GetTopRatedTVs {
+  final TVRepository repository;
 
-  GetTopRatedtvs(this.repository);
+  GetTopRatedTVs(this.repository);
 
-  Future<Either<Failure, List<tv>>> execute() {
-    return repository.getTopRatedtvs();
+  Future<Either<Failure, List<TV>>> execute() {
+    return repository.getTopRatedTVs();
   }
 }

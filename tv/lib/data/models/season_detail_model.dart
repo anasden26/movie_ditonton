@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'episode_detail_model.dart';
-import '../../domain/entities/season_detail.dart';
+import 'package:tv/data/models/episode_detail_model.dart';
+import 'package:tv/domain/entities/season_detail.dart';
 
-class SeasonDetailResponse extends Equatable {
-  const SeasonDetailResponse({
+class SeasonDetailResponse {
+  SeasonDetailResponse({
     required this.airDate,
     required this.episodes,
     required this.name,
@@ -33,36 +32,15 @@ class SeasonDetailResponse extends Equatable {
         seasonNumber: json["season_number"],
       );
 
-  Map<String, dynamic> toJson() => {
-    "air_date": airDate,
-    "episodes": List<dynamic>.from(episodes.map((x) => x.toJson())),
-    "name": name,
-    "overview": overview,
-    "id": id,
-    "poster_path": posterPath,
-    "season_number": seasonNumber,
-  };
-
   SeasonDetail toEntity() {
     return SeasonDetail(
-      airDate: airDate,
-      episodes: episodes.map((episode) => episode.toEntity()).toList(),
-      name: name,
-      overview: overview,
-      id: id,
-      posterPath: posterPath,
-      seasonNumber: seasonNumber,
+      airDate: this.airDate,
+      episodes: this.episodes.map((episode) => episode.toEntity()).toList(),
+      name: this.name,
+      overview: this.overview,
+      id: this.id,
+      posterPath: this.posterPath,
+      seasonNumber: this.seasonNumber,
     );
   }
-
-  @override
-  List<Object?> get props => [
-    airDate,
-    episodes,
-    name,
-    overview,
-    id,
-    posterPath,
-    seasonNumber,
-  ];
 }

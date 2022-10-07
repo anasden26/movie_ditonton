@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/tv.dart';
-import '../repositories/tv_repository.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
+import 'package:core/common/failure.dart';
 
-class GetWatchlisttvs {
-  final tvRepository _repository;
+class GetWatchlistTVs {
+  final TVRepository _repository;
 
-  GetWatchlisttvs(this._repository);
+  GetWatchlistTVs(this._repository);
 
-  Future<Either<Failure, List<tv>>> execute() {
-    return _repository.getWatchlisttv();
+  Future<Either<Failure, List<TV>>> execute() {
+    return _repository.getWatchlistTV();
   }
 }

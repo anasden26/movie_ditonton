@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:core/core.dart';
-import '../../domain/entities/tv.dart';
-import '../pages/tv_detail_page.dart';
+import 'package:core/common/constants.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/presentation/pages/tv_detail_page.dart';
 import 'package:flutter/material.dart';
 
-class tvCard extends StatelessWidget {
-  final tv tvs;
+class TVCard extends StatelessWidget {
+  final TV tv;
 
-  tvCard(this.tvs);
+  TVCard(this.tv);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,8 @@ class tvCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            tvDetailPage.ROUTE_NAME,
-            arguments: tvs.id,
+            TVDetailPage.ROUTE_NAME,
+            arguments: tv.id,
           );
         },
         child: Stack(
@@ -35,14 +35,14 @@ class tvCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tvs.name ?? '-',
+                      tv.name ?? '-',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: kHeading6,
                     ),
                     SizedBox(height: 16),
                     Text(
-                      tvs.overview ?? '-',
+                      tv.overview ?? '-',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -57,7 +57,7 @@ class tvCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tvs.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tv.posterPath}',
                   width: 80,
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),

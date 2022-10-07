@@ -10,22 +10,22 @@ import 'package:tv/presentation/provider/tv_search_notifier.dart';
 
 import 'tv_search_notifier_test.mocks.dart';
 
-@GenerateMocks([Searchtvs])
+@GenerateMocks([SearchTVs])
 void main() {
-  late tvSearchNotifier provider;
-  late MockSearchtvs mockSearchtvs;
+  late TVSearchNotifier provider;
+  late MockSearchTVs mockSearchTVs;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
-    mockSearchtvs = MockSearchtvs();
-    provider = tvSearchNotifier(searchtvs: mockSearchtvs)
+    mockSearchTVs = MockSearchTVs();
+    provider = TVSearchNotifier(searchTVs: mockSearchTVs)
       ..addListener(() {
         listenerCallCount += 1;
       });
   });
 
-  final ttvModel = tv(
+  final ttvModel = TV(
       posterPath: "/vC324sdfcS313vh9QXwijLIHPJp.jpg",
       popularity: 47.432451,
       id: 31917,
@@ -40,16 +40,16 @@ void main() {
       name: "Pretty Little Liars",
       originalName: "Pretty Little Liars"
   );
-  final ttvList = <tv>[ttvModel];
+  final ttvList = <TV>[ttvModel];
   final tQuery = 'pretty';
 
   group('search tv shows', () {
     test('should change state to loading when usecase is called', () async {
       // arrange
-      when(mockSearchtvs.execute(tQuery))
+      when(mockSearchTVs.execute(tQuery))
           .thenAnswer((_) async => Right(ttvList));
       // act
-      provider.fetchtvSearch(tQuery);
+      provider.fetchTVSearch(tQuery);
       // assert
       expect(provider.state, RequestState.loading);
     });
@@ -57,10 +57,10 @@ void main() {
     test('should change search result data when data is gotten successfully',
             () async {
           // arrange
-          when(mockSearchtvs.execute(tQuery))
+          when(mockSearchTVs.execute(tQuery))
               .thenAnswer((_) async => Right(ttvList));
           // act
-          await provider.fetchtvSearch(tQuery);
+          await provider.fetchTVSearch(tQuery);
           // assert
           expect(provider.state, RequestState.loaded);
           expect(provider.searchResult, ttvList);
@@ -69,10 +69,10 @@ void main() {
 
     test('should return error when data is unsuccessful', () async {
       // arrange
-      when(mockSearchtvs.execute(tQuery))
+      when(mockSearchTVs.execute(tQuery))
           .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       // act
-      await provider.fetchtvSearch(tQuery);
+      await provider.fetchTVSearch(tQuery);
       // assert
       expect(provider.state, RequestState.error);
       expect(provider.message, 'Server Failure');

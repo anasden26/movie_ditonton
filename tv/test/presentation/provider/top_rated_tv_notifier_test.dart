@@ -10,22 +10,22 @@ import 'package:tv/presentation/provider/top_rated_tv_notifier.dart';
 
 import '../../../test/presentation/provider/top_rated_tv_notifier_test.mocks.dart';
 
-@GenerateMocks([GetTopRatedtvs])
+@GenerateMocks([GetTopRatedTVs])
 void main() {
-  late MockGetTopRatedtvs mockGetTopRatedtvs;
-  late TopRatedtvsNotifier notifier;
+  late MockGetTopRatedTVs mockGetTopRatedTVs;
+  late TopRatedTVsNotifier notifier;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
-    mockGetTopRatedtvs = MockGetTopRatedtvs();
-    notifier = TopRatedtvsNotifier(getTopRatedtvs: mockGetTopRatedtvs)
+    mockGetTopRatedTVs = MockGetTopRatedTVs();
+    notifier = TopRatedTVsNotifier(getTopRatedTVs: mockGetTopRatedTVs)
       ..addListener(() {
         listenerCallCount++;
       });
   });
 
-  final ttv = tv(
+  final ttv = TV(
     posterPath: "/vC324sdfcS313vh9QXwijLIHPJp.jpg",
     popularity: 47.432451,
     id: 31917,
@@ -41,14 +41,14 @@ void main() {
     originalName: "Pretty Little Liars"
   );
 
-  final ttvList = <tv>[ttv];
+  final ttvList = <TV>[ttv];
 
   test('should change state to loading when usecase is called', () async {
     // arrange
-    when(mockGetTopRatedtvs.execute())
+    when(mockGetTopRatedTVs.execute())
         .thenAnswer((_) async => Right(ttvList));
     // act
-    notifier.fetchTopRatedtvs();
+    notifier.fetchTopRatedTVs();
     // assert
     expect(notifier.state, RequestState.loading);
     expect(listenerCallCount, 1);
@@ -56,10 +56,10 @@ void main() {
 
   test('should change movies data when data is gotten successfully', () async {
     // arrange
-    when(mockGetTopRatedtvs.execute())
+    when(mockGetTopRatedTVs.execute())
         .thenAnswer((_) async => Right(ttvList));
     // act
-    await notifier.fetchTopRatedtvs();
+    await notifier.fetchTopRatedTVs();
     // assert
     expect(notifier.state, RequestState.loaded);
     expect(notifier.tvs, ttvList);
@@ -68,10 +68,10 @@ void main() {
 
   test('should return error when data is unsuccessful', () async {
     // arrange
-    when(mockGetTopRatedtvs.execute())
+    when(mockGetTopRatedTVs.execute())
         .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
     // act
-    await notifier.fetchTopRatedtvs();
+    await notifier.fetchTopRatedTVs();
     // assert
     expect(notifier.state, RequestState.error);
     expect(notifier.message, 'Server Failure');

@@ -1,8 +1,8 @@
-import '../../domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv.dart';
 import 'package:equatable/equatable.dart';
 
-class tvModel extends Equatable {
-  const tvModel({
+class TVModel extends Equatable {
+  TVModel({
     required this.posterPath,
     required this.popularity,
     required this.id,
@@ -32,7 +32,7 @@ class tvModel extends Equatable {
   final String name;
   final String originalName;
 
-  factory tvModel.fromJson(Map<String, dynamic> json) => tvModel(
+  factory TVModel.fromJson(Map<String, dynamic> json) => TVModel(
     posterPath: json["poster_path"],
     popularity: json["popularity"].toDouble(),
     id: json["id"],
@@ -64,21 +64,21 @@ class tvModel extends Equatable {
     "original_name": originalName,
   };
 
-  tv toEntity() {
-    return tv(
-      posterPath: posterPath,
-      popularity: popularity,
-      id: id,
-      backdropPath: backdropPath,
-      voteAverage: voteAverage,
-      overview: overview,
-      firstAirDate: firstAirDate,
-      originalCountry: originalCountry,
-      genreIds: genreIds,
-      originalLanguage: originalLanguage,
-      voteCount: voteCount,
-      name: name,
-      originalName: originalName,
+  TV toEntity() {
+    return TV(
+      posterPath: this.posterPath,
+      popularity: this.popularity,
+      id: this.id,
+      backdropPath: this.backdropPath,
+      voteAverage: this.voteAverage,
+      overview: this.overview,
+      firstAirDate: this.firstAirDate,
+      originalCountry: this.originalCountry,
+      genreIds: this.genreIds,
+      originalLanguage: this.originalLanguage,
+      voteCount: this.voteCount,
+      name: this.name,
+      originalName: this.originalName,
     );
   }
 

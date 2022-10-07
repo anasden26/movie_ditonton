@@ -1,23 +1,23 @@
-import 'package:core/core.dart';
-import '../provider/popular_tvs_notifier.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/presentation/provider/popular_tvs_notifier.dart';
 import 'package:flutter/material.dart';
-import '../widgets/tv_card_list.dart';
+import 'package:tv/presentation/widgets/tv_card_list.dart';
 import 'package:provider/provider.dart';
 
-class PopulartvsPage extends StatefulWidget {
+class PopularTVsPage extends StatefulWidget {
   static const ROUTE_NAME = '/popular-tv-shows';
 
   @override
-  _PopulartvsPageState createState() => _PopulartvsPageState();
+  _PopularTVsPageState createState() => _PopularTVsPageState();
 }
 
-class _PopulartvsPageState extends State<PopulartvsPage> {
+class _PopularTVsPageState extends State<PopularTVsPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<PopulartvsNotifier>(context, listen: false)
-            .fetchPopulartvs());
+        Provider.of<PopularTVsNotifier>(context, listen: false)
+            .fetchPopularTVs());
   }
 
   @override
@@ -28,7 +28,7 @@ class _PopulartvsPageState extends State<PopulartvsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopulartvsNotifier>(
+        child: Consumer<PopularTVsNotifier>(
           builder: (context, data, child) {
             if (data.state == RequestState.loading) {
               return Center(
@@ -38,7 +38,7 @@ class _PopulartvsPageState extends State<PopulartvsPage> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.tvs[index];
-                  return tvCard(tv);
+                  return TVCard(tv);
                 },
                 itemCount: data.tvs.length,
               );

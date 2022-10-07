@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:core/core.dart' as _i5;
+import 'package:core/common/failure.dart' as _i5;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tv/domain/entities/tv.dart' as _i6;
@@ -32,28 +32,28 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
-/// A class which mocks [GetWatchlisttvs].
+/// A class which mocks [GetWatchlistTVs].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetWatchlisttvs extends _i1.Mock implements _i3.GetWatchlisttvs {
-  MockGetWatchlisttvs() {
+class MockGetWatchlistTVs extends _i1.Mock implements _i3.GetWatchlistTVs {
+  MockGetWatchlistTVs() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.tv>>> execute() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.TV>>> execute() =>
       (super.noSuchMethod(
         Invocation.method(
           #execute,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.tv>>>.value(
-            _FakeEither_0<_i5.Failure, List<_i6.tv>>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, List<_i6.TV>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i6.TV>>(
           this,
           Invocation.method(
             #execute,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.tv>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.TV>>>);
 }

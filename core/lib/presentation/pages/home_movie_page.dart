@@ -1,13 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:movie/movie.dart';
 import 'package:tv/tv.dart';
-import 'about_page.dart';
-import 'search_page.dart';
-import 'watchlist_movies_page.dart';
-import '../../common/constants.dart';
-import '../../common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,15 +15,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => Provider.of<tvListNotifier>(context, listen: false)
-          ..fetchOnAirtvs()
-          ..fetchPopulartvs()
-          ..fetchTopRatedtvs());
+        () => Provider.of<TVListNotifier>(context, listen: false)
+          ..fetchOnAirTVs()
+          ..fetchPopularTVs()
+          ..fetchTopRatedTVs());
     Future.microtask(
         () => Provider.of<MovieListNotifier>(context, listen: false)
           ..fetchNowPlayingMovies()
           ..fetchPopularMovies()
           ..fetchTopRatedMovies());
+    WidgetsFlutterBinding.ensureInitialized();
   }
 
   @override
@@ -139,17 +134,17 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               _buildSubHeading(
                 title: 'Popular TV Shows',
                 onTap: () =>
-                    Navigator.pushNamed(context, PopulartvsPage.ROUTE_NAME),
+                    Navigator.pushNamed(context, PopularTVsPage.ROUTE_NAME),
               ),
-              Consumer<tvListNotifier>(
+              Consumer<TVListNotifier>(
                 builder: (context, data, child) {
-                  final state = data.populartvsState;
+                  final state = data.popularTVsState;
                   if (state == RequestState.loading) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state == RequestState.loaded) {
-                    return tvList(data.populartvs);
+                    return TVList(data.popularTVs);
                   } else {
                     return Text('Failed');
                   }
@@ -158,9 +153,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               _buildSubHeading(
                 title: 'On Air TV Shows',
                 onTap: () =>
-                    Navigator.pushNamed(context, OnAirtvsPage.ROUTE_NAME),
+                    Navigator.pushNamed(context, OnAirTVsPage.ROUTE_NAME),
               ),
-              Consumer<tvListNotifier>(
+              Consumer<TVListNotifier>(
                 builder: (context, data, child) {
                   final state = data.onAirState;
                   if (state == RequestState.loading) {
@@ -168,7 +163,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state == RequestState.loaded) {
-                    return tvList(data.onAirtvs);
+                    return TVList(data.onAirTVs);
                   } else {
                     return Text('Failed');
                   }
@@ -177,17 +172,17 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               _buildSubHeading(
                 title: 'Top Rated TV Shows',
                 onTap: () =>
-                    Navigator.pushNamed(context, TopRatedtvsPage.ROUTE_NAME),
+                    Navigator.pushNamed(context, TopRatedTVsPage.ROUTE_NAME),
               ),
-              Consumer<tvListNotifier>(
+              Consumer<TVListNotifier>(
                 builder: (context, data, child) {
-                  final state = data.topRatedtvsState;
+                  final state = data.topRatedTVsState;
                   if (state == RequestState.loading) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state == RequestState.loaded) {
-                    return tvList(data.topRatedtvs);
+                    return TVList(data.topRatedTVs);
                   } else {
                     return Text('Failed');
                   }
@@ -264,10 +259,10 @@ class MovieList extends StatelessWidget {
   }
 }
 
-class tvList extends StatelessWidget {
-  final List<tv> tvs;
+class TVList extends StatelessWidget {
+  final List<TV> tvs;
 
-  tvList(this.tvs);
+  TVList(this.tvs);
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +278,7 @@ class tvList extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  tvDetailPage.ROUTE_NAME,
+                  TVDetailPage.ROUTE_NAME,
                   arguments: tv.id,
                 );
               },

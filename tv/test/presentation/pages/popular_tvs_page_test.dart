@@ -8,18 +8,18 @@ import 'package:mockito/mockito.dart';
 import 'package:tv/presentation/provider/popular_tvs_notifier.dart';
 import 'package:provider/provider.dart';
 
-import '../../../test/presentation/pages/popular_tvs_page_test.mocks.dart';
+import 'popular_tvs_page_test.mocks.dart';
 
-@GenerateMocks([PopulartvsNotifier])
+@GenerateMocks([PopularTVsNotifier])
 void main() {
-  late MockPopulartvsNotifier mockNotifier;
+  late MockPopularTVsNotifier mockNotifier;
 
   setUp(() {
-    mockNotifier = MockPopulartvsNotifier();
+    mockNotifier = MockPopularTVsNotifier();
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<PopulartvsNotifier>.value(
+    return ChangeNotifierProvider<PopularTVsNotifier>.value(
       value: mockNotifier,
       child: MaterialApp(
         home: body,
@@ -34,7 +34,7 @@ void main() {
         final progressBarFinder = find.byType(CircularProgressIndicator);
         final centerFinder = find.byType(Center);
 
-        await tester.pumpWidget(_makeTestableWidget(PopulartvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(PopularTVsPage()));
 
         expect(centerFinder, findsOneWidget);
         expect(progressBarFinder, findsOneWidget);
@@ -43,11 +43,11 @@ void main() {
   testWidgets('Page should display ListView when data is loaded',
           (WidgetTester tester) async {
         when(mockNotifier.state).thenReturn(RequestState.loaded);
-        when(mockNotifier.tvs).thenReturn(<tv>[]);
+        when(mockNotifier.tvs).thenReturn(<TV>[]);
 
         final ListViewFinder = find.byType(ListView);
 
-        await tester.pumpWidget(_makeTestableWidget(PopulartvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(PopularTVsPage()));
 
         expect(ListViewFinder, findsOneWidget);
       });
@@ -59,7 +59,7 @@ void main() {
 
         final textFinder = find.byKey(Key('error_message'));
 
-        await tester.pumpWidget(_makeTestableWidget(PopulartvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(PopularTVsPage()));
 
         expect(textFinder, findsOneWidget);
       });

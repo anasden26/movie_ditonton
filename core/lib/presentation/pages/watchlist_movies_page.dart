@@ -22,8 +22,8 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
         Provider.of<WatchlistMovieNotifier>(context, listen: false)
             .fetchWatchlistMovies());
     Future.microtask(() =>
-        Provider.of<WatchlisttvNotifier>(context, listen: false)
-            .fetchWatchlisttvs());
+        Provider.of<WatchlistTVNotifier>(context, listen: false)
+            .fetchWatchlistTVs());
   }
 
   @override
@@ -35,8 +35,8 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   void didPopNext() {
     Provider.of<WatchlistMovieNotifier>(context, listen: false)
         .fetchWatchlistMovies();
-    Provider.of<WatchlisttvNotifier>(context, listen: false)
-        .fetchWatchlisttvs();
+    Provider.of<WatchlistTVNotifier>(context, listen: false)
+        .fetchWatchlistTVs();
   }
 
   @override
@@ -86,7 +86,7 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Consumer<WatchlisttvNotifier>(
+              child: Consumer<WatchlistTVNotifier>(
                 builder: (context, data, child) {
                   if (data.watchlistState == RequestState.loading) {
                     return Center(
@@ -95,10 +95,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                   } else if (data.watchlistState == RequestState.loaded) {
                     return ListView.builder(
                       itemBuilder: (context, index) {
-                        final tv = data.watchlisttvs[index];
-                        return tvCard(tv);
+                        final tv = data.watchlistTVs[index];
+                        return TVCard(tv);
                       },
-                      itemCount: data.watchlisttvs.length,
+                      itemCount: data.watchlistTVs.length,
                     );
                   } else {
                     return Center(

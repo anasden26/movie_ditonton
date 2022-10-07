@@ -10,17 +10,17 @@ import 'package:tv/presentation/provider/watchlist_tv_notifier.dart';
 import '../../../../test/dummy_data/dummy_objects.dart';
 import 'watchlist_tv_notifier_test.mocks.dart';
 
-@GenerateMocks([GetWatchlisttvs])
+@GenerateMocks([GetWatchlistTVs])
 void main() {
-  late WatchlisttvNotifier provider;
-  late MockGetWatchlisttvs mockGetWatchlisttvs;
+  late WatchlistTVNotifier provider;
+  late MockGetWatchlistTVs mockGetWatchlistTVs;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
-    mockGetWatchlisttvs = MockGetWatchlisttvs();
-    provider = WatchlisttvNotifier(
-      getWatchlisttvs: mockGetWatchlisttvs,
+    mockGetWatchlistTVs = MockGetWatchlistTVs();
+    provider = WatchlistTVNotifier(
+      getWatchlistTVs: mockGetWatchlistTVs,
     )..addListener(() {
       listenerCallCount += 1;
     });
@@ -28,22 +28,22 @@ void main() {
 
   test('should change movies data when data is gotten successfully', () async {
     // arrange
-    when(mockGetWatchlisttvs.execute())
-        .thenAnswer((_) async => Right([testWatchlisttv]));
+    when(mockGetWatchlistTVs.execute())
+        .thenAnswer((_) async => Right([testWatchlistTv]));
     // act
-    await provider.fetchWatchlisttvs();
+    await provider.fetchWatchlistTVs();
     // assert
     expect(provider.watchlistState, RequestState.loaded);
-    expect(provider.watchlisttvs, [testWatchlisttv]);
+    expect(provider.watchlistTVs, [testWatchlistTv]);
     expect(listenerCallCount, 2);
   });
 
   test('should return error when data is unsuccessful', () async {
     // arrange
-    when(mockGetWatchlisttvs.execute())
+    when(mockGetWatchlistTVs.execute())
         .thenAnswer((_) async => Left(DatabaseFailure("Can't get data")));
     // act
-    await provider.fetchWatchlisttvs();
+    await provider.fetchWatchlistTVs();
     // assert
     expect(provider.watchlistState, RequestState.error);
     expect(provider.message, "Can't get data");

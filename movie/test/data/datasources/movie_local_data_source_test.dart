@@ -2,7 +2,7 @@ import 'package:core/common/exception.dart';
 import 'package:movie/data/datasources/movie_local_data_source.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../../../../test/dummy_data/dummy_objects.dart';
 import '../../../../test/helpers/test_helper.mocks.dart';
 

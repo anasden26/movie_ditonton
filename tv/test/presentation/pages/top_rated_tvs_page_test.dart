@@ -8,18 +8,18 @@ import 'package:mockito/mockito.dart';
 import 'package:tv/presentation/provider/top_rated_tv_notifier.dart';
 import 'package:provider/provider.dart';
 
-import '../../../test/presentation/pages/top_rated_tvs_page_test.mocks.dart';
+import 'top_rated_tvs_page_test.mocks.dart';
 
-@GenerateMocks([TopRatedtvsNotifier])
+@GenerateMocks([TopRatedTVsNotifier])
 void main() {
-  late MockTopRatedtvsNotifier mockNotifier;
+  late MockTopRatedTVsNotifier mockNotifier;
 
   setUp(() {
-    mockNotifier = MockTopRatedtvsNotifier();
+    mockNotifier = MockTopRatedTVsNotifier();
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TopRatedtvsNotifier>.value(
+    return ChangeNotifierProvider<TopRatedTVsNotifier>.value(
       value: mockNotifier,
       child: MaterialApp(
         home: body,
@@ -34,7 +34,7 @@ void main() {
         final progressFinder = find.byType(CircularProgressIndicator);
         final centerFinder = find.byType(Center);
 
-        await tester.pumpWidget(_makeTestableWidget(TopRatedtvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedTVsPage()));
 
         expect(centerFinder, findsOneWidget);
         expect(progressFinder, findsOneWidget);
@@ -43,11 +43,11 @@ void main() {
   testWidgets('Page should display when data is loaded',
           (WidgetTester tester) async {
         when(mockNotifier.state).thenReturn(RequestState.loaded);
-        when(mockNotifier.tvs).thenReturn(<tv>[]);
+        when(mockNotifier.tvs).thenReturn(<TV>[]);
 
         final ListViewFinder = find.byType(ListView);
 
-        await tester.pumpWidget(_makeTestableWidget(TopRatedtvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedTVsPage()));
 
         expect(ListViewFinder, findsOneWidget);
       });
@@ -59,7 +59,7 @@ void main() {
 
         final textFinder = find.byKey(Key('error_message'));
 
-        await tester.pumpWidget(_makeTestableWidget(TopRatedtvsPage()));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedTVsPage()));
 
         expect(textFinder, findsOneWidget);
       });

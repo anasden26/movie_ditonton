@@ -1,27 +1,27 @@
-import 'package:core/core.dart';
-import '../../domain/entities/tv.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/domain/entities/tv.dart';
 import 'package:flutter/foundation.dart';
-import '../../domain/usecases/search_tvs.dart';
+import 'package:tv/domain/usecases/search_tvs.dart';
 
-class tvSearchNotifier extends ChangeNotifier {
-  final Searchtvs searchtvs;
+class TVSearchNotifier extends ChangeNotifier {
+  final SearchTVs searchTVs;
 
-  tvSearchNotifier({required this.searchtvs});
+  TVSearchNotifier({required this.searchTVs});
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
-  List<tv> _searchResult = [];
-  List<tv> get searchResult => _searchResult;
+  List<TV> _searchResult = [];
+  List<TV> get searchResult => _searchResult;
 
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchtvSearch(String query) async {
+  Future<void> fetchTVSearch(String query) async {
     _state = RequestState.loading;
     notifyListeners();
 
-    final result = await searchtvs.execute(query);
+    final result = await searchTVs.execute(query);
     result.fold(
           (failure) {
         _message = failure.message;

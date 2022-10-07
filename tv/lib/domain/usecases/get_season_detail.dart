@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/season_detail.dart';
-import '../repositories/tv_repository.dart';
+import 'package:tv/domain/entities/season_detail.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
+import 'package:core/common/failure.dart';
 
 class GetSeasonDetail {
-  final tvRepository repository;
+  final TVRepository repository;
 
   GetSeasonDetail(this.repository);
 

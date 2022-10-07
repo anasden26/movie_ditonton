@@ -22,7 +22,7 @@ class SearchPage extends StatelessWidget {
             TextField(
               onChanged: (query) {
                 context.read<SearchBloc>().add(OnQueryChanged(query));
-                context.read<SearchBlocTV>().add(OnQueryChangedTV(query));
+                context.read<SearchBlocTv>().add(OnQueryChangedTv(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -60,15 +60,13 @@ class SearchPage extends StatelessWidget {
                                 );
                               } else if (state is SearchHasData) {
                                 final result = state.result;
-                                return Expanded(
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.all(8),
-                                    itemBuilder: (context, index) {
-                                      final movie = result[index];
-                                      return MovieCard(movie);
-                                    },
-                                    itemCount: result.length,
-                                  ),
+                                return ListView.builder(
+                                  padding: const EdgeInsets.all(8),
+                                  itemBuilder: (context, index) {
+                                    final movie = result[index];
+                                    return MovieCard(movie);
+                                  },
+                                  itemCount: result.length,
                                 );
                               } else if (state is SearchError) {
                                 return Expanded(
@@ -83,25 +81,23 @@ class SearchPage extends StatelessWidget {
                               }
                             },
                           ),
-                          BlocBuilder<SearchBlocTV, SearchStateTV>(
+                          BlocBuilder<SearchBlocTv, SearchStateTv>(
                             builder: (context, state) {
-                              if (state is SearchLoadingTV) {
+                              if (state is SearchLoadingTv) {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
-                              } else if (state is SearchHasDataTV) {
+                              } else if (state is SearchHasDataTv) {
                                 final result = state.result;
-                                return Expanded(
-                                  child: ListView.builder(
-                                    padding: const EdgeInsets.all(8),
-                                    itemBuilder: (context, index) {
-                                      final tv = result[index];
-                                      return tvCard(tv);
-                                    },
-                                    itemCount: result.length,
-                                  ),
+                                return ListView.builder(
+                                  padding: const EdgeInsets.all(8),
+                                  itemBuilder: (context, index) {
+                                    final tv = result[index];
+                                    return TVCard(tv);
+                                  },
+                                  itemCount: result.length,
                                 );
-                              } else if (state is SearchErrorTV) {
+                              } else if (state is SearchErrorTv) {
                                 return Expanded(
                                   child: Center(
                                     child: Text(state.message),

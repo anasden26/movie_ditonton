@@ -1,27 +1,27 @@
-import 'package:core/core.dart';
-import '../../domain/entities/tv.dart';
-import '../../domain/usecases/get_popular_tv.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/usecases/get_popular_tv.dart';
 import 'package:flutter/foundation.dart';
 
-class PopulartvsNotifier extends ChangeNotifier {
-  final GetPopulartvs getPopulartvs;
+class PopularTVsNotifier extends ChangeNotifier {
+  final GetPopularTVs getPopularTVs;
 
-  PopulartvsNotifier(this.getPopulartvs);
+  PopularTVsNotifier(this.getPopularTVs);
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
-  List<tv> _tvs = [];
-  List<tv> get tvs => _tvs;
+  List<TV> _tvs = [];
+  List<TV> get tvs => _tvs;
 
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchPopulartvs() async {
+  Future<void> fetchPopularTVs() async {
     _state = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopulartvs.execute();
+    final result = await getPopularTVs.execute();
 
     result.fold(
           (failure) {

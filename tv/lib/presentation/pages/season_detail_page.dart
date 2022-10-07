@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:core/core.dart';
-import '../provider/season_detail_notifier.dart';
+import 'package:core/common/constants.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/presentation/provider/season_detail_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 

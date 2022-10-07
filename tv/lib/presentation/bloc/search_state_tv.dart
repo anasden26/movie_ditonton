@@ -1,29 +1,29 @@
 part of 'search_bloc_tv.dart';
 
-abstract class SearchStateTV extends Equatable {
-  const SearchStateTV();
+abstract class SearchStateTv extends Equatable {
+  const SearchStateTv();
 
   @override
   List<Object> get props => [];
 }
 
-class SearchEmptyTV extends SearchStateTV {}
+class SearchEmptyTv extends SearchStateTv {}
 
-class SearchLoadingTV extends SearchStateTV {}
+class SearchLoadingTv extends SearchStateTv {}
 
-class SearchErrorTV extends SearchStateTV {
+class SearchErrorTv extends SearchStateTv {
   final String message;
 
-  SearchErrorTV(this.message);
+  SearchErrorTv(this.message);
 
   @override
   List<Object> get props => [message];
 }
 
-class SearchHasDataTV extends SearchStateTV {
-  final List<tv> result;
+class SearchHasDataTv extends SearchStateTv {
+  final List<TV> result;
 
-  SearchHasDataTV(this.result);
+  SearchHasDataTv(this.result);
 
   @override
   List<Object> get props => [result];

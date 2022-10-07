@@ -1,23 +1,23 @@
-import 'package:core/core.dart';
-import '../provider/on_air_tvs_notifier.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/presentation/provider/on_air_tvs_notifier.dart';
 import 'package:flutter/material.dart';
-import '../widgets/tv_card_list.dart';
+import 'package:tv/presentation/widgets/tv_card_list.dart';
 import 'package:provider/provider.dart';
 
-class OnAirtvsPage extends StatefulWidget {
+class OnAirTVsPage extends StatefulWidget {
   static const ROUTE_NAME = '/on-air-tv-shows';
 
   @override
-  _OnAirtvsPageState createState() => _OnAirtvsPageState();
+  _OnAirTVsPageState createState() => _OnAirTVsPageState();
 }
 
-class _OnAirtvsPageState extends State<OnAirtvsPage> {
+class _OnAirTVsPageState extends State<OnAirTVsPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<OnAirtvsNotifier>(context, listen: false)
-            .fetchOnAirtvs());
+        Provider.of<OnAirTVsNotifier>(context, listen: false)
+            .fetchOnAirTVs());
   }
 
   @override
@@ -28,7 +28,7 @@ class _OnAirtvsPageState extends State<OnAirtvsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<OnAirtvsNotifier>(
+        child: Consumer<OnAirTVsNotifier>(
           builder: (context, data, child) {
             if (data.state == RequestState.loading) {
               return Center(
@@ -38,7 +38,7 @@ class _OnAirtvsPageState extends State<OnAirtvsPage> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = data.tvs[index];
-                  return tvCard(tv);
+                  return TVCard(tv);
                 },
                 itemCount: data.tvs.length,
               );

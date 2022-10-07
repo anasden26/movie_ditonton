@@ -5,7 +5,7 @@ import 'package:tv/tv.dart';
 
 class SaveWatchlist {
   final MovieRepository repository1;
-  final tvRepository repository2;
+  final TVRepository repository2;
 
   SaveWatchlist(this.repository1, this.repository2);
 
@@ -13,7 +13,7 @@ class SaveWatchlist {
     return repository1.saveWatchlist(movie);
   }
 
-  Future<Either<Failure, String>> execute2(tvDetail tv) {
+  Future<Either<Failure, String>> execute2(TVDetail tv) {
     return repository2.saveWatchlist(tv);
   }
 }

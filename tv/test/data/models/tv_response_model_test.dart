@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/data/models/tv_model.dart';
-import '../../../lib/data/models/tv_response.dart';
+import 'package:tv/data/models/tv_model.dart';
+import 'package:tv/data/models/tv_response.dart';
 
 import '../../../../test/json_reader.dart';
 
 void main() {
-  final ttvModel = tvModel(
+  final tTVModel = TVModel(
       backdropPath:"/Aa9TLpNpBMyRkD8sPJ7ACKLjt0l.jpg",
       firstAirDate:"2022-08-21",
       genreIds:[10765,18,10759],
@@ -22,17 +22,17 @@ void main() {
       voteAverage:8.6,
       voteCount:1386
   );
-  final ttvResponseModel =
-  tvResponse(tvList: <tvModel>[ttvModel]);
+  final tTVResponseModel =
+  TVResponse(TVList: <TVModel>[tTVModel]);
   group('fromJson', () {
     test('should return a valid model from JSON', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
       json.decode(readJson('dummy_data/on_air_tv.json'));
       // act
-      final result = tvResponse.fromJson(jsonMap);
+      final result = TVResponse.fromJson(jsonMap);
       // assert
-      expect(result, ttvResponseModel);
+      expect(result, tTVResponseModel);
     });
   });
 
@@ -41,7 +41,7 @@ void main() {
       // arrange
 
       // act
-      final result = ttvResponseModel.toJson();
+      final result = tTVResponseModel.toJson();
       // assert
       final expectedJsonMap = {
         "results": [

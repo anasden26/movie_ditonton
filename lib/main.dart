@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieListNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<tvListNotifier>(),
+          create: (_) => di.locator<TVListNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<MovieDetailNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<tvDetailNotifier>(),
+          create: (_) => di.locator<TVDetailNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<SeasonDetailNotifier>(),
@@ -45,34 +45,34 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieSearchNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<tvSearchNotifier>(),
+          create: (_) => di.locator<TVSearchNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedMoviesNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedtvsNotifier>(),
+          create: (_) => di.locator<TopRatedTVsNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<PopularMoviesNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<PopulartvsNotifier>(),
+          create: (_) => di.locator<PopularTVsNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<OnAirtvsNotifier>(),
+          create: (_) => di.locator<OnAirTVsNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlisttvNotifier>(),
+          create: (_) => di.locator<WatchlistTVNotifier>(),
         ),
         BlocProvider(
           create: (_) => di.locator<SearchBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<SearchBlocTV>(),
+          create: (_) => di.locator<SearchBlocTv>(),
         ),
       ],
       child: MaterialApp(
@@ -95,24 +95,24 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => HomeMoviePage());
             case PopularMoviesPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
-            case PopulartvsPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => PopulartvsPage());
-            case OnAirtvsPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => OnAirtvsPage());
+            case PopularTVsPage.ROUTE_NAME:
+              return CupertinoPageRoute(builder: (_) => PopularTVsPage());
+            case OnAirTVsPage.ROUTE_NAME:
+              return CupertinoPageRoute(builder: (_) => OnAirTVsPage());
             case TopRatedMoviesPage.ROUTE_NAME:
               return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
-            case TopRatedtvsPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => TopRatedtvsPage());
+            case TopRatedTVsPage.ROUTE_NAME:
+              return CupertinoPageRoute(builder: (_) => TopRatedTVsPage());
             case MovieDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => MovieDetailPage(id: id),
                 settings: settings,
               );
-            case tvDetailPage.ROUTE_NAME:
+            case TVDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
-                builder: (_) => tvDetailPage(id: id),
+                builder: (_) => TVDetailPage(id: id),
                 settings: settings,
               );
             case SeasonDetailPage.ROUTE_NAME:

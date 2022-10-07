@@ -63,12 +63,12 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> insertWatchlisttv(tvTable tv) async {
+  Future<int> insertWatchlistTv(TVTable tv) async {
     final db = await database;
     return await db!.insert(_tblWatchlist1, tv.toJson());
   }
 
-  Future<int> removeWatchlisttv(tvTable tv) async {
+  Future<int> removeWatchlistTv(TVTable tv) async {
     final db = await database;
     return await db!.delete(
       _tblWatchlist1,
@@ -92,7 +92,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<Map<String, dynamic>?> gettvById(int id) async {
+  Future<Map<String, dynamic>?> getTvById(int id) async {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist1,
@@ -114,7 +114,7 @@ class DatabaseHelper {
     return results;
   }
 
-  Future<List<Map<String, dynamic>>> getWatchlisttv() async {
+  Future<List<Map<String, dynamic>>> getWatchlistTv() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(_tblWatchlist1);
 

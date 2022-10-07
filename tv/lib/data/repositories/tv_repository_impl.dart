@@ -1,113 +1,115 @@
 import 'dart:io';
-import 'package:core/core.dart';
+
 import 'package:dartz/dartz.dart';
-import '../datasources/tv_local_data_source.dart';
-import '../datasources/tv_remote_data_source.dart';
-import '../models/tv_table.dart';
-import '../../domain/entities/season_detail.dart';
-import '../../domain/entities/tv.dart';
-import '../../domain/entities/tv_detail.dart';
-import '../../domain/repositories/tv_repository.dart';
+import 'package:tv/data/datasources/tv_local_data_source.dart';
+import 'package:tv/data/datasources/tv_remote_data_source.dart';
+import 'package:tv/data/models/tv_table.dart';
+import 'package:tv/domain/entities/season_detail.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv_detail.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
+import 'package:core/common/exception.dart';
+import 'package:core/common/failure.dart';
 
-class tvRepositoryImpl implements tvRepository {
-  final tvRemoteDataSource remoteDataSource;
-  final tvLocalDataSource localDataSource;
+class TVRepositoryImpl implements TVRepository {
+  final TVRemoteDataSource remoteDataSource;
+  final TVLocalDataSource localDataSource;
 
-  tvRepositoryImpl({
+  TVRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
   });
 
   @override
-  Future<Either<Failure, List<tv>>> gettvOnTheAir() async {
+  Future<Either<Failure, List<TV>>> getTVOnTheAir() async {
     try {
-      final result = await remoteDataSource.gettvOnTheAir();
+      final result = await remoteDataSource.getTVOnTheAir();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, tvDetail>> gettvDetail(int id) async {
+  Future<Either<Failure, TVDetail>> getTVDetail(int id) async {
     try {
-      final result = await remoteDataSource.gettvDetail(id);
+      final result = await remoteDataSource.getTVDetail(id);
       return Right(result.toEntity());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, List<tv>>> gettvRecommendations(int id) async {
+  Future<Either<Failure, List<TV>>> getTVRecommendations(int id) async {
     try {
-      final result = await remoteDataSource.gettvRecommendations(id);
+      final result = await remoteDataSource.getTVRecommendations(id);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, List<tv>>> getPopulartvs() async {
+  Future<Either<Failure, List<TV>>> getPopularTVs() async {
     try {
-      final result = await remoteDataSource.getPopulartvs();
+      final result = await remoteDataSource.getPopularTVs();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, List<tv>>> getTopRatedtvs() async {
+  Future<Either<Failure, List<TV>>> getTopRatedTVs() async {
     try {
-      final result = await remoteDataSource.getTopRatedtvs();
+      final result = await remoteDataSource.getTopRatedTVs();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, List<tv>>> searchtvs(String query) async {
+  Future<Either<Failure, List<TV>>> searchTVs(String query) async {
     try {
-      final result = await remoteDataSource.searchtvs(query);
+      final result = await remoteDataSource.searchTVs(query);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 
   @override
-  Future<Either<Failure, String>> saveWatchlist(tvDetail tv) async {
+  Future<Either<Failure, String>> saveWatchlist(TVDetail tv) async {
     try {
       final result =
-      await localDataSource.insertWatchlist(tvTable.fromEntity(tv));
+      await localDataSource.insertWatchlist(TVTable.fromEntity(tv));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
-      rethrow;
+      throw e;
     }
   }
 
   @override
-  Future<Either<Failure, String>> removeWatchlist(tvDetail tv) async {
+  Future<Either<Failure, String>> removeWatchlist(TVDetail tv) async {
     try {
       final result =
-      await localDataSource.removeWatchlist(tvTable.fromEntity(tv));
+      await localDataSource.removeWatchlist(TVTable.fromEntity(tv));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -116,13 +118,13 @@ class tvRepositoryImpl implements tvRepository {
 
   @override
   Future<bool> isAddedToWatchlist(int id) async {
-    final result = await localDataSource.gettvById(id);
+    final result = await localDataSource.getTVById(id);
     return result != null;
   }
 
   @override
-  Future<Either<Failure, List<tv>>> getWatchlisttv() async {
-    final result = await localDataSource.getWatchlisttv();
+  Future<Either<Failure, List<TV>>> getWatchlistTV() async {
+    final result = await localDataSource.getWatchlistTV();
     return Right(result.map((data) => data.toEntity()).toList());
   }
 
@@ -132,9 +134,9 @@ class tvRepositoryImpl implements tvRepository {
       final result = await remoteDataSource.getSeasonDetail(id, season);
       return Right(result.toEntity());
     } on ServerException {
-      return const Left(ServerFailure(''));
+      return Left(ServerFailure(''));
     } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 }

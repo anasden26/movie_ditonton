@@ -1,6 +1,6 @@
-import 'package:core/core.dart';
-import '../../domain/entities/season_detail.dart';
-import '../../domain/usecases/get_season_detail.dart';
+import 'package:tv/domain/entities/season_detail.dart';
+import 'package:tv/domain/usecases/get_season_detail.dart';
+import 'package:core/common/state_enum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

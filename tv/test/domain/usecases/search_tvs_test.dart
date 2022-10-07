@@ -6,20 +6,20 @@ import 'package:mockito/mockito.dart';
 import '../../../../test/helpers/test_helper.mocks.dart';
 
 void main() {
-  late Searchtvs usecase;
-  late MocktvRepository mocktvRepository;
+  late SearchTVs usecase;
+  late MockTVRepository mockTVRepository;
 
   setUp(() {
-    mocktvRepository = MocktvRepository();
-    usecase = Searchtvs(mocktvRepository);
+    mockTVRepository = MockTVRepository();
+    usecase = SearchTVs(mockTVRepository);
   });
 
-  final ttv = <tv>[];
+  final ttv = <TV>[];
   final tQuery = 'Pretty Little Liars';
 
   test('should get list of tv shows from the repository', () async {
     // arrange
-    when(mocktvRepository.searchtvs(tQuery))
+    when(mockTVRepository.searchTVs(tQuery))
         .thenAnswer((_) async => Right(ttv));
     // act
     final result = await usecase.execute(tQuery);

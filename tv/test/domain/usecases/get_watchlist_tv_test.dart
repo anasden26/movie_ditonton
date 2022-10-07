@@ -7,21 +7,21 @@ import '../../../../test/dummy_data/dummy_objects.dart';
 import '../../../../test/helpers/test_helper.mocks.dart';
 
 void main() {
-  late GetWatchlisttvs usecase;
-  late MocktvRepository mocktvRepository;
+  late GetWatchlistTVs usecase;
+  late MockTVRepository mockTVRepository;
 
   setUp(() {
-    mocktvRepository = MocktvRepository();
-    usecase = GetWatchlisttvs(mocktvRepository);
+    mockTVRepository = MockTVRepository();
+    usecase = GetWatchlistTVs(mockTVRepository);
   });
 
   test('should get list of tv shows from the repository', () async {
     // arrange
-    when(mocktvRepository.getWatchlisttv())
-        .thenAnswer((_) async => Right(testtvList));
+    when(mockTVRepository.getWatchlistTV())
+        .thenAnswer((_) async => Right(testTvList));
     // act
     final result = await usecase.execute();
     // assert
-    expect(result, Right(testtvList));
+    expect(result, Right(testTvList));
   });
 }

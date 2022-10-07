@@ -27,6 +27,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       Provider.of<MovieDetailNotifier>(context, listen: false)
           .loadWatchlistStatus(widget.id);
     });
+    WidgetsFlutterBinding.ensureInitialized();
   }
 
   @override
@@ -48,7 +49,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               ),
             );
           } else {
-            return Text(provider.message);
+            return Center(
+              key: Key('error_message'),
+              child: Text(provider.message),
+            );
           }
         },
       ),

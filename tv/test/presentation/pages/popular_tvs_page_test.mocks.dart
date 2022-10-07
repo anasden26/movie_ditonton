@@ -6,7 +6,7 @@
 import 'dart:async' as _i6;
 import 'dart:ui' as _i7;
 
-import 'package:core/core.dart' as _i4;
+import 'package:core/common/state_enum.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tv/domain/entities/tv.dart' as _i5;
 import 'package:tv/domain/usecases/get_popular_tv.dart' as _i2;
@@ -23,8 +23,8 @@ import 'package:tv/presentation/provider/popular_tvs_notifier.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeGetPopulartvs_0 extends _i1.SmartFake implements _i2.GetPopulartvs {
-  _FakeGetPopulartvs_0(
+class _FakeGetPopularTVs_0 extends _i1.SmartFake implements _i2.GetPopularTVs {
+  _FakeGetPopularTVs_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -33,33 +33,33 @@ class _FakeGetPopulartvs_0 extends _i1.SmartFake implements _i2.GetPopulartvs {
         );
 }
 
-/// A class which mocks [PopulartvsNotifier].
+/// A class which mocks [PopularTVsNotifier].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPopulartvsNotifier extends _i1.Mock
-    implements _i3.PopulartvsNotifier {
-  MockPopulartvsNotifier() {
+class MockPopularTVsNotifier extends _i1.Mock
+    implements _i3.PopularTVsNotifier {
+  MockPopularTVsNotifier() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.GetPopulartvs get getPopulartvs => (super.noSuchMethod(
-        Invocation.getter(#getPopulartvs),
-        returnValue: _FakeGetPopulartvs_0(
+  _i2.GetPopularTVs get getPopularTVs => (super.noSuchMethod(
+        Invocation.getter(#getPopularTVs),
+        returnValue: _FakeGetPopularTVs_0(
           this,
-          Invocation.getter(#getPopulartvs),
+          Invocation.getter(#getPopularTVs),
         ),
-      ) as _i2.GetPopulartvs);
+      ) as _i2.GetPopularTVs);
   @override
   _i4.RequestState get state => (super.noSuchMethod(
         Invocation.getter(#state),
         returnValue: _i4.RequestState.empty,
       ) as _i4.RequestState);
   @override
-  List<_i5.tv> get tvs => (super.noSuchMethod(
+  List<_i5.TV> get tvs => (super.noSuchMethod(
         Invocation.getter(#tvs),
-        returnValue: <_i5.tv>[],
-      ) as List<_i5.tv>);
+        returnValue: <_i5.TV>[],
+      ) as List<_i5.TV>);
   @override
   String get message => (super.noSuchMethod(
         Invocation.getter(#message),
@@ -71,9 +71,9 @@ class MockPopulartvsNotifier extends _i1.Mock
         returnValue: false,
       ) as bool);
   @override
-  _i6.Future<void> fetchPopulartvs() => (super.noSuchMethod(
+  _i6.Future<void> fetchPopularTVs() => (super.noSuchMethod(
         Invocation.method(
-          #fetchPopulartvs,
+          #fetchPopularTVs,
           [],
         ),
         returnValue: _i6.Future<void>.value(),

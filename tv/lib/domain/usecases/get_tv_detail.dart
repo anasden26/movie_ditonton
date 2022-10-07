@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/tv_detail.dart';
-import '../repositories/tv_repository.dart';
+import 'package:tv/domain/entities/tv_detail.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
+import 'package:core/common/failure.dart';
 
-class GettvDetail {
-  final tvRepository repository;
+class GetTVDetail {
+  final TVRepository repository;
 
-  GettvDetail(this.repository);
+  GetTVDetail(this.repository);
 
-  Future<Either<Failure, tvDetail>> execute(int id) {
-    return repository.gettvDetail(id);
+  Future<Either<Failure, TVDetail>> execute(int id) {
+    return repository.getTVDetail(id);
   }
 }

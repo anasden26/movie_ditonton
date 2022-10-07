@@ -1,9 +1,9 @@
-import 'package:core/core.dart';
-import 'season.dart';
+import 'package:core/domain/entities/genre.dart';
+import 'package:tv/domain/entities/season.dart';
 import 'package:equatable/equatable.dart';
 
-class tvDetail extends Equatable {
-  const tvDetail({
+class TVDetail extends Equatable {
+  TVDetail({
     required this.backdropPath,
     required this.episodeRunTime,
     required this.firstAirDate,

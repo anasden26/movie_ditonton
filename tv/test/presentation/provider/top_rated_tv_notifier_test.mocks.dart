@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:core/core.dart' as _i6;
+import 'package:core/common/failure.dart' as _i6;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tv/domain/entities/tv.dart' as _i7;
@@ -23,8 +23,8 @@ import 'package:tv/domain/usecases/get_top_rated_tv.dart' as _i4;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FaketvRepository_0 extends _i1.SmartFake implements _i2.tvRepository {
-  _FaketvRepository_0(
+class _FakeTVRepository_0 extends _i1.SmartFake implements _i2.TVRepository {
+  _FakeTVRepository_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -43,36 +43,36 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
-/// A class which mocks [GetTopRatedtvs].
+/// A class which mocks [GetTopRatedTVs].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetTopRatedtvs extends _i1.Mock implements _i4.GetTopRatedtvs {
-  MockGetTopRatedtvs() {
+class MockGetTopRatedTVs extends _i1.Mock implements _i4.GetTopRatedTVs {
+  MockGetTopRatedTVs() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.tvRepository get repository => (super.noSuchMethod(
+  _i2.TVRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FaketvRepository_0(
+        returnValue: _FakeTVRepository_0(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.tvRepository);
+      ) as _i2.TVRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, List<_i7.tv>>> execute() =>
+  _i5.Future<_i3.Either<_i6.Failure, List<_i7.TV>>> execute() =>
       (super.noSuchMethod(
         Invocation.method(
           #execute,
           [],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, List<_i7.tv>>>.value(
-            _FakeEither_1<_i6.Failure, List<_i7.tv>>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, List<_i7.TV>>>.value(
+            _FakeEither_1<_i6.Failure, List<_i7.TV>>(
           this,
           Invocation.method(
             #execute,
             [],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.tv>>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.TV>>>);
 }

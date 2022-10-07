@@ -1,11 +1,11 @@
-import 'package:core/core.dart';
-import '../../domain/entities/tv.dart';
-import '../../domain/usecases/get_watchlist_tv.dart';
+import 'package:core/common/state_enum.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/usecases/get_watchlist_tv.dart';
 import 'package:flutter/foundation.dart';
 
-class WatchlisttvNotifier extends ChangeNotifier {
-  var _watchlisttvs = <tv>[];
-  List<tv> get watchlisttvs => _watchlisttvs;
+class WatchlistTVNotifier extends ChangeNotifier {
+  var _watchlistTVs = <TV>[];
+  List<TV> get watchlistTVs => _watchlistTVs;
 
   var _watchlistState = RequestState.empty;
   RequestState get watchlistState => _watchlistState;
@@ -13,15 +13,15 @@ class WatchlisttvNotifier extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  WatchlisttvNotifier({required this.getWatchlisttvs});
+  WatchlistTVNotifier({required this.getWatchlistTVs});
 
-  final GetWatchlisttvs getWatchlisttvs;
+  final GetWatchlistTVs getWatchlistTVs;
 
-  Future<void> fetchWatchlisttvs() async {
+  Future<void> fetchWatchlistTVs() async {
     _watchlistState = RequestState.loading;
     notifyListeners();
 
-    final result = await getWatchlisttvs.execute();
+    final result = await getWatchlistTVs.execute();
     result.fold(
           (failure) {
         _watchlistState = RequestState.error;
@@ -30,7 +30,7 @@ class WatchlisttvNotifier extends ChangeNotifier {
       },
           (tvsData) {
         _watchlistState = RequestState.loaded;
-        _watchlisttvs = tvsData;
+        _watchlistTVs = tvsData;
         notifyListeners();
       },
     );

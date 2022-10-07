@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/season_detail.dart';
-import '../entities/tv.dart';
-import '../entities/tv_detail.dart';
+import 'package:tv/domain/entities/season_detail.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/entities/tv_detail.dart';
+import 'package:core/common/failure.dart';
 
-abstract class tvRepository {
-  Future<Either<Failure, List<tv>>> gettvOnTheAir();
-  Future<Either<Failure, List<tv>>> getPopulartvs();
-  Future<Either<Failure, List<tv>>> getTopRatedtvs();
-  Future<Either<Failure, tvDetail>> gettvDetail(int id);
-  Future<Either<Failure, List<tv>>> gettvRecommendations(int id);
-  Future<Either<Failure, List<tv>>> searchtvs(String query);
-  Future<Either<Failure, String>> saveWatchlist(tvDetail tv);
-  Future<Either<Failure, String>> removeWatchlist(tvDetail tv);
+abstract class TVRepository {
+  Future<Either<Failure, List<TV>>> getTVOnTheAir();
+  Future<Either<Failure, List<TV>>> getPopularTVs();
+  Future<Either<Failure, List<TV>>> getTopRatedTVs();
+  Future<Either<Failure, TVDetail>> getTVDetail(int id);
+  Future<Either<Failure, List<TV>>> getTVRecommendations(int id);
+  Future<Either<Failure, List<TV>>> searchTVs(String query);
+  Future<Either<Failure, String>> saveWatchlist(TVDetail tv);
+  Future<Either<Failure, String>> removeWatchlist(TVDetail tv);
   Future<bool> isAddedToWatchlist(int id);
-  Future<Either<Failure, List<tv>>> getWatchlisttv();
+  Future<Either<Failure, List<TV>>> getWatchlistTV();
   Future<Either<Failure, SeasonDetail>> getSeasonDetail(int id, int season);
 }

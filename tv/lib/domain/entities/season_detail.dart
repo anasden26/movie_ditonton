@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'episode_detail.dart';
+import 'package:tv/domain/entities/episode_detail.dart';
 
 class SeasonDetail extends Equatable {
-  const SeasonDetail({
+  SeasonDetail({
     required this.airDate,
     required this.episodes,
     required this.name,

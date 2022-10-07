@@ -1,33 +1,34 @@
 import 'package:dartz/dartz.dart';
-import 'package:tv/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/usecases/get_popular_tv.dart';
 
 import '../../../../test/helpers/test_helper.mocks.dart';
 
 void main() {
-  late GetPopulartvs usecase;
-  late MocktvRepository mocktvRepository;
+  late GetPopularTVs usecase;
+  late MockTVRepository mockTVRepository;
 
   setUp(() {
-    mocktvRepository = MocktvRepository();
-    usecase = GetPopulartvs(mocktvRepository);
+    mockTVRepository = MockTVRepository();
+    usecase = GetPopularTVs(mockTVRepository);
   });
 
-  final ttv = <tv>[];
+  final ttvs = <TV>[];
 
-  group('GetPopulartvs Tests', () {
+  group('GetPopularTVs Tests', () {
     group('execute', () {
       test(
           'should get list of tv shows from the repository when execute function is called',
               () async {
             // arrange
-            when(mocktvRepository.getPopulartvs())
-                .thenAnswer((_) async => Right(ttv));
+            when(mockTVRepository.getPopularTVs())
+                .thenAnswer((_) async => Right(ttvs));
             // act
             final result = await usecase.execute();
             // assert
-            expect(result, Right(ttv));
+            expect(result, Right(ttvs));
           });
     });
   });

@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:movie/movie.dart';
 import 'package:core/common/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../../../../test/json_reader.dart';
 import '../../../../test/helpers/test_helper.mocks.dart';
 

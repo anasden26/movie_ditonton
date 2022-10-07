@@ -8,11 +8,11 @@ import '../../../../test/helpers/test_helper.mocks.dart';
 
 void main() {
   late GetSeasonDetail usecase;
-  late MocktvRepository mocktvRepository;
+  late MockTVRepository mockTVRepository;
 
   setUp(() {
-    mocktvRepository = MocktvRepository();
-    usecase = GetSeasonDetail(mocktvRepository);
+    mockTVRepository = MockTVRepository();
+    usecase = GetSeasonDetail(mockTVRepository);
   });
 
   final tId = 31917;
@@ -20,7 +20,7 @@ void main() {
 
   test('should get season tv show detail from the repository', () async {
     // arrange
-    when(mocktvRepository.getSeasonDetail(tId, tSeason))
+    when(mockTVRepository.getSeasonDetail(tId, tSeason))
         .thenAnswer((_) async => Right(testSeasonDetail));
     // act
     final result = await usecase.execute(tId, tSeason);

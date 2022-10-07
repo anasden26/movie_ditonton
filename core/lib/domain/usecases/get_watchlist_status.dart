@@ -3,7 +3,7 @@ import 'package:tv/domain/repositories/tv_repository.dart';
 
 class GetWatchListStatus {
   final MovieRepository repository;
-  final tvRepository repository1;
+  final TVRepository repository1;
 
   GetWatchListStatus(this.repository, this.repository1);
 

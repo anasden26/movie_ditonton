@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:core/core.dart';
-import '../entities/tv.dart';
-import '../repositories/tv_repository.dart';
+import 'package:core/common/failure.dart';
+import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/domain/repositories/tv_repository.dart';
 
-class Searchtvs {
-  final tvRepository repository;
+class SearchTVs {
+  final TVRepository repository;
 
-  Searchtvs(this.repository);
+  SearchTVs(this.repository);
 
-  Future<Either<Failure, List<tv>>> execute(String query) {
-    return repository.searchtvs(query);
+  Future<Either<Failure, List<TV>>> execute(String query) {
+    return repository.searchTVs(query);
   }
 }
