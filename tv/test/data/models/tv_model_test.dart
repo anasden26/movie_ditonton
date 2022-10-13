@@ -1,5 +1,6 @@
 import 'package:tv/data/models/tv_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tv/data/models/tv_table.dart';
 import 'package:tv/domain/entities/tv.dart';
 
 void main() {
@@ -35,8 +36,26 @@ void main() {
     originalName: 'originalName',
   );
 
+  final tTvTable = TVTable(
+    id: 1,
+    name: 'title',
+    posterPath: 'posterPath',
+    overview: 'overview',
+  );
+
   test('should be a subclass of TV entity', () async {
     final result = tTVModel.toEntity();
     expect(result, tTV);
+  });
+
+  test('toJson from database helper', () {
+    final result = tTvTable.toJson();
+    final expectedJsonMap = {
+      'id': 1,
+      'name': "title",
+      'posterPath': "posterPath",
+      'overview': "overview",
+    };
+    expect(result, expectedJsonMap);
   });
 }

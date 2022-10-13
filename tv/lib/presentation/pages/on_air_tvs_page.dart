@@ -1,5 +1,5 @@
-import 'package:core/common/state_enum.dart';
-import 'package:tv/presentation/provider/on_air_tvs_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/on_air_tv_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:tv/presentation/widgets/tv_card_list.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +15,7 @@ class _OnAirTVsPageState extends State<OnAirTVsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<OnAirTVsNotifier>(context, listen: false)
-            .fetchOnAirTVs());
+    context.read<OnAirTvBloc>().add(fetchOnAirTvs());
   }
 
   @override
@@ -28,25 +26,27 @@ class _OnAirTVsPageState extends State<OnAirTVsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<OnAirTVsNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<OnAirTvBloc, OnAirTvState>(
+          builder: (context, state) {
+            if (state is OnAirTvLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            } else if (state is OnAirTvHasData) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.tvs[index];
+                  final tv = state.result[index];
                   return TVCard(tv);
                 },
-                itemCount: data.tvs.length,
+                itemCount: state.result.length,
               );
-            } else {
+            } else if (state is OnAirTvError) {
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return Container();
             }
           },
         ),

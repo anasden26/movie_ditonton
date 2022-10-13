@@ -1,66 +1,73 @@
-import 'package:core/common/state_enum.dart';
-import 'package:movie/domain/entities/movie.dart';
-import 'package:movie/presentation/pages/popular_movies_page.dart';
-import 'package:movie/presentation/provider/popular_movies_notifier.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:movie/movie.dart';
+import 'package:movie/presentation/bloc/popular_bloc.dart';
 
-import 'popular_movies_page_test.mocks.dart';
-
-@GenerateMocks([PopularMoviesNotifier])
 void main() {
-  late MockPopularMoviesNotifier mockNotifier;
+  late FakePopularBloc fakePopularBloc;
 
-  setUp(() {
-    mockNotifier = MockPopularMoviesNotifier();
+  setUpAll(() {
+    fakePopularBloc = FakePopularBloc();
+    registerFallbackValue(FakePopularSeriesEvent());
+    registerFallbackValue(FakePopularSeriesState());
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<PopularMoviesNotifier>.value(
-      value: mockNotifier,
+    return BlocProvider<PopularBloc>(
+      create: (_) => fakePopularBloc,
       child: MaterialApp(
         home: body,
       ),
     );
   }
 
-  testWidgets('Page should display center progress bar when loading',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.loading);
+  testWidgets('Page should display progress bar when loading',
+          (WidgetTester tester) async {
+        when(() => fakePopularBloc.state)
+            .thenReturn(PopularLoading());
 
-    final progressBarFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
+        final progressFinder = find.byType(CircularProgressIndicator);
+        final centerFinder = find.byType(Center);
 
-    await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
+        await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
+        await tester.pump();
 
-    expect(centerFinder, findsOneWidget);
-    expect(progressBarFinder, findsOneWidget);
-  });
+        expect(centerFinder, findsOneWidget);
+        expect(progressFinder, findsOneWidget);
+      });
 
-  testWidgets('Page should display ListView when data is loaded',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.loaded);
-    when(mockNotifier.movies).thenReturn(<Movie>[]);
+  testWidgets('Page should display when data is loaded',
+          (WidgetTester tester) async {
+        when(() => fakePopularBloc.state)
+            .thenReturn(PopularHasData(<Movie>[]));
 
-    final ListViewFinder = find.byType(ListView);
+        final ListViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
+        await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
 
-    expect(ListViewFinder, findsOneWidget);
-  });
+        expect(ListViewFinder, findsOneWidget);
+      });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.error);
-    when(mockNotifier.message).thenReturn('Error message');
+  testWidgets('Page should display text with message when error',
+          (WidgetTester tester) async {
+        const errorMessage = 'error message';
 
-    final textFinder = find.byKey(Key('error_message'));
+        when(() => fakePopularBloc.state)
+            .thenReturn(PopularError(errorMessage));
 
-    await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
+        final textMessageKeyFinder = find.byKey(const Key('error_message'));
+        await tester.pumpWidget(_makeTestableWidget(PopularMoviesPage()));
+        await tester.pump();
 
-    expect(textFinder, findsOneWidget);
-  });
+        expect(textMessageKeyFinder, findsOneWidget);
+      });
 }
+
+class FakePopularBloc extends MockBloc<PopularEvent, PopularState> implements PopularBloc{}
+
+class FakePopularSeriesEvent extends Fake implements PopularEvent {}
+
+class FakePopularSeriesState extends Fake implements PopularState {}

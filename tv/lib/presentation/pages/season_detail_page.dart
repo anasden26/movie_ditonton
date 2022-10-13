@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:core/common/constants.dart';
-import 'package:core/common/state_enum.dart';
-import 'package:tv/presentation/provider/season_detail_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/season_detail_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 
@@ -21,28 +21,25 @@ class _SeasonDetailPageState extends State<SeasonDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<SeasonDetailNotifier>(context, listen: false)
-          .fetchSeasonDetail(widget.id, widget.season);
-    });
+    context.read<SeasonDetailBlocTv>().add(fetchSeasonDetail(widget.id, widget.season));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<SeasonDetailNotifier>(
-        builder: (context, data, child) {
-          if (data.seasonState == RequestState.loading) {
+      body: BlocBuilder<SeasonDetailBlocTv, SeasonDetailStateTv>(
+        builder: (context, state) {
+          if (state is SeasonDetailLoadingTv) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.seasonState == RequestState.loaded) {
+          } else if (state is SeasonDetailHasDataTv) {
             final screenWidth = MediaQuery.of(context).size.width;
             return SafeArea(
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: 'https://image.tmdb.org/t/p/w500${data.season.posterPath}',
+                    imageUrl: 'https://image.tmdb.org/t/p/w500${state.result.posterPath}',
                     width: screenWidth,
                     placeholder: (context, url) => Center(
                       child: CircularProgressIndicator(),
@@ -74,23 +71,23 @@ class _SeasonDetailPageState extends State<SeasonDetailPage> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 8),
                                         child: Text(
-                                          data.season.name,
+                                          state.result.name,
                                           style: kHeading6,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 8),
                                         child: Text(
-                                          data.season.overview,
+                                          state.result.overview,
                                           style: kBodyText,
                                         ),
                                       ),
                                       ListView.builder(
                                         shrinkWrap: true,
                                         physics: const ScrollPhysics(),
-                                        itemCount: data.season.episodes.length,
+                                        itemCount: state.result.episodes.length,
                                         itemBuilder: (context, index) {
-                                          var episode = data.season.episodes[index];
+                                          var episode = state.result.episodes[index];
                                           return ListTile(
                                             contentPadding: const EdgeInsets.symmetric(vertical: 4),
                                             leading: CachedNetworkImage(
@@ -154,11 +151,13 @@ class _SeasonDetailPageState extends State<SeasonDetailPage> {
                 ],
               ),
             );
-          } else {
+          } else if (state is SeasonDetailErrorTv) {
             return Center(
               key: Key('error_message'),
-              child: Text(data.message),
+              child: Text(state.message),
             );
+          } else {
+            return Container();
           }
         },
       ),

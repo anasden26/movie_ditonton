@@ -1,4 +1,6 @@
 import 'package:core/core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/presentation/bloc/popular_bloc.dart';
 import '../provider/popular_movies_notifier.dart';
 import '../widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +17,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularMoviesNotifier>(context, listen: false)
-            .fetchPopularMovies());
+    context.read<PopularBloc>().add(fetchPopularMovies());
   }
 
   @override
@@ -28,25 +28,28 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<PopularBloc, PopularState>(
+          builder: (context, state) {
+            if (state is PopularLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            } else if (state is PopularHasData) {
+              final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
+                  final movie = result[index];
                   return MovieCard(movie);
                 },
-                itemCount: data.movies.length,
+                itemCount: result.length,
               );
-            } else {
+            } else if (state is PopularError) {
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return Container();
             }
           },
         ),

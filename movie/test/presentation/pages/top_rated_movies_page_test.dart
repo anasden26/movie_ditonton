@@ -1,26 +1,23 @@
-import 'package:core/common/state_enum.dart';
-import 'package:movie/domain/entities/movie.dart';
-import 'package:movie/presentation/pages/top_rated_movies_page.dart';
-import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:movie/movie.dart';
+import 'package:movie/presentation/bloc/top_rated_bloc.dart';
 
-import 'top_rated_movies_page_test.mocks.dart';
-
-@GenerateMocks([TopRatedMoviesNotifier])
 void main() {
-  late MockTopRatedMoviesNotifier mockNotifier;
+  late FakeTopRatedBloc fakeTopRatedBloc;
 
-  setUp(() {
-    mockNotifier = MockTopRatedMoviesNotifier();
+  setUpAll(() {
+    fakeTopRatedBloc = FakeTopRatedBloc();
+    registerFallbackValue(FakeTopRatedSeriesEvent());
+    registerFallbackValue(FakeTopRatedSeriesState());
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TopRatedMoviesNotifier>.value(
-      value: mockNotifier,
+    return BlocProvider<TopRatedBloc>(
+      create: (_) => fakeTopRatedBloc,
       child: MaterialApp(
         home: body,
       ),
@@ -28,39 +25,49 @@ void main() {
   }
 
   testWidgets('Page should display progress bar when loading',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.loading);
+          (WidgetTester tester) async {
+        when(() => fakeTopRatedBloc.state)
+            .thenReturn(TopRatedLoading());
 
-    final progressFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
+        final progressFinder = find.byType(CircularProgressIndicator);
+        final centerFinder = find.byType(Center);
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+        await tester.pump();
 
-    expect(centerFinder, findsOneWidget);
-    expect(progressFinder, findsOneWidget);
-  });
+        expect(centerFinder, findsOneWidget);
+        expect(progressFinder, findsOneWidget);
+      });
 
   testWidgets('Page should display when data is loaded',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.loaded);
-    when(mockNotifier.movies).thenReturn(<Movie>[]);
+          (WidgetTester tester) async {
+        when(() => fakeTopRatedBloc.state)
+            .thenReturn(TopRatedHasData(<Movie>[]));
 
-    final ListViewFinder = find.byType(ListView);
+        final ListViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
 
-    expect(ListViewFinder, findsOneWidget);
-  });
+        expect(ListViewFinder, findsOneWidget);
+      });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.error);
-    when(mockNotifier.message).thenReturn('Error message');
+  testWidgets('Page should display text with message when error',
+          (WidgetTester tester) async {
+        const errorMessage = 'error message';
 
-    final textFinder = find.byKey(Key('error_message'));
+        when(() => fakeTopRatedBloc.state)
+            .thenReturn(TopRatedError(errorMessage));
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+        final textMessageKeyFinder = find.byKey(const Key('error_message'));
+        await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+        await tester.pump();
 
-    expect(textFinder, findsOneWidget);
-  });
+        expect(textMessageKeyFinder, findsOneWidget);
+      });
 }
+
+class FakeTopRatedBloc extends MockBloc<TopRatedEvent, TopRatedState> implements TopRatedBloc{}
+
+class FakeTopRatedSeriesEvent extends Fake implements TopRatedEvent {}
+
+class FakeTopRatedSeriesState extends Fake implements TopRatedState {}

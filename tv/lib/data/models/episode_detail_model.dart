@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:tv/domain/entities/episode_detail.dart';
 
-class EpisodeDetailResponse {
+class EpisodeDetailResponse extends Equatable {
   EpisodeDetailResponse({
     required this.airDate,
     required this.episodeNumber,
@@ -39,6 +40,19 @@ class EpisodeDetailResponse {
         voteCount: json["vote_count"],
       );
 
+  Map<String, dynamic> toJson() => {
+    "air_date": airDate,
+    "episode_number": episodeNumber,
+    "id": id,
+    "name": name,
+    "overview": overview,
+    "production_code": productionCode,
+    "season_number": seasonNumber,
+    "still_path": stillPath,
+    "vote_average": voteAverage,
+    "vote_count": voteCount,
+  };
+
   EpisodeDetail toEntity() {
     return EpisodeDetail(
       airDate: this.airDate,
@@ -53,4 +67,18 @@ class EpisodeDetailResponse {
       voteCount: this.voteCount,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    airDate,
+    episodeNumber,
+    name,
+    overview,
+    id,
+    productionCode,
+    seasonNumber,
+    stillPath,
+    voteAverage,
+    voteCount,
+  ];
 }

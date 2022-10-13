@@ -3,7 +3,6 @@ import 'package:movie/movie.dart';
 import 'package:tv/tv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';
@@ -69,15 +68,11 @@ class SearchPage extends StatelessWidget {
                                   itemCount: result.length,
                                 );
                               } else if (state is SearchError) {
-                                return Expanded(
-                                  child: Center(
-                                    child: Text(state.message),
-                                  ),
+                                return Center(
+                                  child: Text(state.message),
                                 );
                               } else {
-                                return Expanded(
-                                  child: Container(),
-                                );
+                                return Container();
                               }
                             },
                           ),
@@ -98,15 +93,11 @@ class SearchPage extends StatelessWidget {
                                   itemCount: result.length,
                                 );
                               } else if (state is SearchErrorTv) {
-                                return Expanded(
-                                  child: Center(
-                                    child: Text(state.message),
-                                  ),
+                                return Center(
+                                  child: Text(state.message),
                                 );
                               } else {
-                                return Expanded(
-                                  child: Container(),
-                                );
+                                return Container();
                               }
                             },
                           ),

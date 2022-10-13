@@ -20,8 +20,11 @@ void main() {
     voteCount: 1,
   );
   
-  test('should show card list of movies', () {
-    final backButton = find.byType(InkWell);
+  testWidgets('should show card list of movies', (WidgetTester tester) async {
+    final view = find.byType(Container);
 
+    await tester.pumpWidget(Material(child: Container()));
+
+    expect(view, findsOneWidget);
   });
 }

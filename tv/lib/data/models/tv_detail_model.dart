@@ -1,8 +1,9 @@
 import 'package:core/data/models/genre_model.dart';
 import 'package:tv/data/models/season_model.dart';
 import 'package:tv/domain/entities/tv_detail.dart';
+import 'package:equatable/equatable.dart';
 
-class TVDetailResponse {
+class TVDetailResponse extends Equatable {
   TVDetailResponse({
     required this.backdropPath,
     required this.episodeRunTime,
@@ -87,6 +88,32 @@ class TVDetailResponse {
         voteCount: json["vote_count"],
       );
 
+  Map<String, dynamic> toJson() => {
+    "backdrop_path": backdropPath,
+    "episode_run_time": List<dynamic>.from(episodeRunTime.map((x) => x)),
+    "first_air_date": firstAirDate,
+    "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
+    "homepage": homepage,
+    "id": id,
+    "in_production": inProduction,
+    "languages": List<dynamic>.from(languages.map((x) => x)),
+    "last_air_date": lastAirDate,
+    "name": name,
+    "number_of_episodes": numberOfEpisodes,
+    "number_of_seasons": numberOfSeasons,
+    "original_language": originalLanguage,
+    "original_name": originalName,
+    "overview": overview,
+    "popularity": popularity,
+    "poster_path": posterPath,
+    "seasons": List<dynamic>.from(seasons.map((x) => x.toJson())),
+    "status": status,
+    "tagline": tagline,
+    "type": type,
+    "vote_average": voteAverage,
+    "vote_count": voteCount,
+  };
+
   TVDetail toEntity() {
     return TVDetail(
       backdropPath: this.backdropPath,
@@ -106,4 +133,31 @@ class TVDetailResponse {
       voteCount: this.voteCount,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    backdropPath,
+    episodeRunTime,
+    firstAirDate,
+    genres,
+    homepage,
+    id,
+    inProduction,
+    languages,
+    lastAirDate,
+    name,
+    numberOfEpisodes,
+    numberOfSeasons,
+    originalLanguage,
+    originalName,
+    overview,
+    popularity,
+    posterPath,
+    seasons,
+    status,
+    tagline,
+    type,
+    voteAverage,
+    voteCount,
+  ];
 }

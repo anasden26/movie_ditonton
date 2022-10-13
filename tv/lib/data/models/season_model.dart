@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:tv/domain/entities/season.dart';
 
-class SeasonModel {
+class SeasonModel extends Equatable {
   SeasonModel({
     required this.airDate,
     required this.episodeCount,
@@ -29,6 +30,16 @@ class SeasonModel {
     seasonNumber: json["season_number"],
   );
 
+  Map<String, dynamic> toJson() => {
+    "air_date": airDate,
+    "episode_count": episodeCount,
+    "id": id,
+    "name": name,
+    "overview": overview,
+    "poster_path": posterPath,
+    "season_number": seasonNumber,
+  };
+
   Season toEntity() {
     return Season(
       airDate: this.airDate,
@@ -40,4 +51,15 @@ class SeasonModel {
       seasonNumber: this.seasonNumber,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    airDate,
+    episodeCount,
+    id,
+    name,
+    overview,
+    posterPath,
+    seasonNumber,
+  ];
 }
