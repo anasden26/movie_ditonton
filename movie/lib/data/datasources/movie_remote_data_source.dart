@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/services.dart';
 import '../models/movie_detail_model.dart';
 import '../models/movie_model.dart';
 import '../models/movie_response.dart';
